@@ -1,0 +1,310 @@
+/* Timeline & Certificate Showcase Styles */
+
+/* =============================================================
+   TIMELINE — shared by Experience & Education
+   ============================================================= */
+.timeline {
+  list-style: none;
+  padding: 0 0 0 1.35rem;
+  margin: 0;
+  border-left: 2px solid var(--line);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 2.25rem;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -1.72rem;
+  top: 0.35rem;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--ink);
+  box-shadow: 0 0 0 3px var(--bg);
+}
+
+.timeline-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.timeline-org {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.timeline-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--bg-subtle);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.timeline-role {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+  margin-bottom: 0.6rem;
+}
+
+.timeline-location {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.timeline-detail {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0.35rem 0 0;
+}
+
+.timeline-points {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--ink-secondary);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.timeline-points li {
+  margin-bottom: 0.3rem;
+}
+
+/* =============================================================
+   CERTIFICATE SHOWCASE
+   ============================================================= */
+.cert-showcase {
+  border-top: 1px solid var(--line);
+  padding-top: 2rem;
+}
+
+.cert-showcase-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cert-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cert-showcase-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cert-nav-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.cert-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: var(--bg-subtle);
+  color: var(--ink-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all var(--duration-fast) ease;
+}
+
+.cert-nav-btn:hover {
+  background: var(--bg);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.cert-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+}
+
+.cert-frame {
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-subtle);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  min-height: 20rem;
+}
+
+@keyframes certFade {
+  from { opacity: 0; transform: scale(0.99); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.cert-img {
+  width: 100%;
+  max-height: 32rem;
+  object-fit: contain;
+  display: block;
+  border-radius: 4px;
+  animation: certFade 400ms var(--ease-spring);
+}
+
+.cert-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--muted);
+  font-size: 0.925rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 2rem;
+}
+
+.cert-progress-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.06);
+  display: flex;
+  gap: 2px;
+}
+
+[data-theme="dark"] .cert-progress-track {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cert-segment {
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  transition: background-color 300ms ease;
+}
+
+.cert-segment.active {
+  background: var(--ink);
+  transform-origin: left;
+  animation: segmentProgress 4.5s linear forwards;
+}
+
+.cert-showcase:hover .cert-segment.active,
+.cert-showcase:focus-within .cert-segment.active {
+  animation-play-state: paused;
+}
+
+@keyframes segmentProgress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.cert-segment.passed {
+  background: var(--muted-light);
+}
+
+.cert-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.cert-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 0.2rem;
+}
+
+.cert-issuer {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.cert-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-shrink: 0;
+}
+
+.cert-dots {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.cert-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: var(--line-strong);
+  cursor: pointer;
+  transition: all var(--duration-fast) ease;
+}
+
+.cert-dot:hover {
+  background: var(--ink-secondary);
+  transform: scale(1.2);
+}
+
+.cert-dot.active {
+  background: var(--ink);
+  transform: scale(1.35);
+}
+
+.cert-verify {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cert-verify:hover {
+  text-decoration: underline;
+}
+
