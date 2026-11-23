@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Abraham Tiruneh | Full-Stack Developer</title>
+    <meta name="description" content="Portfolio of Abraham Tiruneh, Full-Stack Developer specializing in modern web applications, distributed backend systems, and AI-integrated platforms." />
+    <link rel="canonical" href="https://abraham-tiruneh.dev/" />
+
+    <!-- Browser Chrome & Mobile Theme Color -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+
+    <!-- Favicon: Clean Monogram Icon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2309090b'/><text x='50' y='65' font-family='system-ui,-apple-system,sans-serif' font-size='46' font-weight='700' fill='%23ffffff' text-anchor='middle'>AT</text></svg>" />
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://abraham-tiruneh.dev/" />
+    <meta property="og:title" content="Abraham Tiruneh | Full-Stack Developer" />
+    <meta property="og:description" content="Portfolio of Abraham Tiruneh, Full-Stack Developer specializing in modern web applications, distributed backend systems, and AI-integrated platforms." />
+    <meta property="og:image" content="https://abraham-tiruneh.dev/assets/photos/photo1.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Abraham Tiruneh | Full-Stack Developer" />
+    <meta name="twitter:description" content="Portfolio of Abraham Tiruneh, Full-Stack Developer specializing in modern web applications, distributed backend systems, and AI-integrated platforms." />
+
+    <!-- Structured Data (JSON-LD) for Search Engines & Social Graphs -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Abraham Tiruneh",
+        "jobTitle": "Full-Stack Developer",
+        "url": "https://abraham-tiruneh.dev/",
+        "sameAs": [
+          "https://github.com/EstarCode",
+          "https://linkedin.com/in/abraham-tiruneh",
+          "https://t.me/kokpic"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Addis Ababa",
+          "addressCountry": "Ethiopia"
+        }
+      }
+    </script>
+
+    <!-- Google Fonts: Plus Jakarta Sans (Headings) + Inter (Body/Data) - Optimized Weights -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <!-- Zero-FOUC Theme Initializer -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem("theme");
+          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var theme = saved || (prefersDark ? "dark" : "light");
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
