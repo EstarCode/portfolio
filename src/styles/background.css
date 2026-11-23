@@ -1,0 +1,35 @@
+/* Background (About) — editorial prose, no boxes */
+
+.background-prose-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 60ch;
+}
+
+.background-lead-prose {
+  font-size: 1.025rem;
+  line-height: 1.75;
+  color: var(--ink);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.background-body-prose {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--ink-secondary);
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .background-lead-prose {
+    font-size: 0.975rem;
+    line-height: 1.65;
+  }
+  .background-body-prose {
+    font-size: 0.925rem;
+    line-height: 1.65;
+  }
+}
