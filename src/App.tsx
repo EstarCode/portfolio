@@ -1,0 +1,130 @@
+import { useEffect } from "react";
+import { profile } from "./data/profile";
+import { useTheme } from "./hooks/useTheme";
+import { ErrorBoundary } from "./components/ErrorBoundary";
+import { Header } from "./components/Header";
+import { Hero } from "./components/Hero";
+import { Background } from "./components/Background";
+import { Projects } from "./components/Projects";
+import { Experience } from "./components/Experience";
+import { Stack } from "./components/Stack";
+import { EducationSection } from "./components/Education";
+import { Contact } from "./components/Contact";
+
+import "./styles/tokens.css";
+import "./styles/global.css";
+import "./styles/header.css";
+import "./styles/hero.css";
+import "./styles/background.css";
+import "./styles/projects.css";
+import "./styles/education.css";
+import "./styles/stack.css";
+import "./styles/contact.css";
+
+export default function App() {
+  const { theme, toggle } = useTheme();
+
+  useEffect(() => {
+    let pendingG = false;
+    let gTimeout: number | undefined;
+
+    const onKey = (e: KeyboardEvent) => {
+      // Ignore single-key shortcuts when typing into inputs
+      const target = e.target as HTMLElement | null;
+      const isInput =
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        target?.isContentEditable;
+
+      if (isInput) return;
+
+      if (e.key.toLowerCase() === "t") {
+        e.preventDefault();
+        toggle();
+        return;
+      }
+
+      // Vim sequence: G followed by section key
+      if (e.key.toLowerCase() === "g" && !pendingG) {
+        pendingG = true;
+        if (gTimeout) clearTimeout(gTimeout);
+        gTimeout = window.setTimeout(() => {
+          pendingG = false;
+        }, 1200);
+        return;
+      }
+
+      if (pendingG) {
+        const k = e.key.toLowerCase();
+        const targets: Record<string, string> = {
+          a: "about",
+          p: "projects",
+          e: "experience",
+          s: "stack",
+          d: "education",
+          c: "contact",
+        };
+        if (targets[k]) {
+          e.preventDefault();
+          window.location.hash = targets[k];
+        }
+        pendingG = false;
+        if (gTimeout) clearTimeout(gTimeout);
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      if (gTimeout) clearTimeout(gTimeout);
+    };
+  }, [toggle]);
+
+  return (
+    <ErrorBoundary fallbackTitle="Something went wrong">
+      <Header
+        name={profile.name}
+        theme={theme}
+        toggleTheme={toggle}
+      />
+
+      <main id="main">
+        <ErrorBoundary fallbackTitle="Hero error">
+          <Hero p={profile} />
+        </ErrorBoundary>
+
+        <ErrorBoundary fallbackTitle="About error">
+          <Background info={profile.background} />
+        </ErrorBoundary>
+
+        <ErrorBoundary fallbackTitle="Projects error">
+          <Projects projects={profile.projects} />
+        </ErrorBoundary>
+
+        <ErrorBoundary fallbackTitle="Experience error">
+          <Experience jobs={profile.experience} />
+        </ErrorBoundary>
+
+        <ErrorBoundary fallbackTitle="Stack error">
+          <Stack p={profile} />
+        </ErrorBoundary>
+
+        <ErrorBoundary fallbackTitle="Education error">
+          <EducationSection
+            education={profile.education}
+            certificates={profile.certificates}
+          />
+        </ErrorBoundary>
+
+        <ErrorBoundary fallbackTitle="Contact error">
+          <Contact p={profile} />
+        </ErrorBoundary>
+      </main>
+
+      <footer className="site-footer">
+        <span>© {new Date().getFullYear()} {profile.name} · Full-Stack Developer</span>
+        <a href="#top">↑ Top</a>
+      </footer>
+    </ErrorBoundary>
+  );
+}
