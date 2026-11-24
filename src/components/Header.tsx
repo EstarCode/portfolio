@@ -62,7 +62,7 @@ export function Header({ name, theme, toggleTheme }: HeaderProps) {
               key={n.id}
               href={`#${n.id}`}
               className="nav-link"
-              aria-current={active === n.id ? "true" : undefined}
+              aria-current={active === n.id ? "page" : undefined}
               onClick={() => setOpen(false)}
             >
               {n.label}

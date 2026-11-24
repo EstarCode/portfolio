@@ -43,7 +43,7 @@
   text-decoration: none;
   padding: 0.35rem 0.65rem;
   border-radius: 4px;
-  transition: all var(--duration-fast) ease;
+  transition: color var(--duration-fast) ease, background-color var(--duration-fast) ease;
 }
 
 .nav-link:hover {
@@ -128,6 +128,11 @@
   left: 1rem;
 }
 
+@keyframes drawerFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 @media (max-width: 640px) {
   .menu-btn {
     display: inline-flex;
@@ -149,6 +154,7 @@
   }
   .site-header nav.is-open {
     display: flex;
+    animation: drawerFadeIn 160ms var(--ease-spring) both;
   }
   .site-header nav.is-open .nav-link {
     padding: 0.55rem 0.85rem;

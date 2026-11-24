@@ -13,6 +13,11 @@ export function Contact({ p }: { p: Profile }) {
   const [senderEmail, setSenderEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+
+  // Clear error state whenever user starts editing any field
+  const clearErrorIfNeeded = () => {
+    if (status === "error") { setStatus("idle"); setErrorMessage(""); }
+  };
   const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -74,9 +79,13 @@ export function Contact({ p }: { p: Profile }) {
 
     // Rate limiting: enforce 10s cooldown between submissions
     const now = Date.now();
-    if (now - lastSubmitTime < 10000) {
-      setErrorMessage("Please wait a moment before sending another message.");
+    const cooldownRemaining = 10000 - (now - lastSubmitTime);
+    if (cooldownRemaining > 0) {
+      const secs = Math.ceil(cooldownRemaining / 1000);
+      setErrorMessage(`Please wait ${secs} second${secs !== 1 ? "s" : ""} before sending another message.`);
       setStatus("error");
+      // Auto-clear after cooldown expires
+      setTimeout(() => setStatus((s) => (s === "error" ? "idle" : s)), cooldownRemaining);
       return;
     }
 
@@ -85,8 +94,12 @@ export function Contact({ p }: { p: Profile }) {
     const trimmedSubject = subject.trim();
     const trimmedMsg = message.trim();
 
-    if (!trimmedName || !trimmedEmail || !trimmedMsg) {
-      setErrorMessage("Please fill in all required fields.");
+    if (!trimmedName || trimmedName.length < 2 || !trimmedEmail || !trimmedMsg) {
+      if (trimmedName.length === 1) {
+        setErrorMessage("Please enter your full name (at least 2 characters).");
+      } else {
+        setErrorMessage("Please fill in all required fields.");
+      }
       setStatus("error");
       return;
     }
@@ -226,7 +239,7 @@ export function Contact({ p }: { p: Profile }) {
                     type="text"
                     placeholder="Your name"
                     value={senderName}
-                    onChange={(e) => setSenderName(e.target.value)}
+                    onChange={(e) => { setSenderName(e.target.value); clearErrorIfNeeded(); }}
                     required
                     maxLength={100}
                     autoComplete="name"
@@ -241,7 +254,7 @@ export function Contact({ p }: { p: Profile }) {
                     type="email"
                     placeholder="your.email@example.com"
                     value={senderEmail}
-                    onChange={(e) => setSenderEmail(e.target.value)}
+                    onChange={(e) => { setSenderEmail(e.target.value); clearErrorIfNeeded(); }}
                     required
                     maxLength={100}
                     autoComplete="email"
@@ -258,7 +271,7 @@ export function Contact({ p }: { p: Profile }) {
                   type="text"
                   placeholder="Project · Collaboration · Opportunity"
                   value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
+                  onChange={(e) => { setSubject(e.target.value); clearErrorIfNeeded(); }}
                   maxLength={150}
                   autoComplete="off"
                   disabled={status === "sending"}
@@ -282,7 +295,7 @@ export function Contact({ p }: { p: Profile }) {
                   rows={5}
                   placeholder="Your message..."
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  onChange={(e) => { setMessage(e.target.value); clearErrorIfNeeded(); }}
                   required
                   maxLength={MAX_MSG}
                   disabled={status === "sending"}

@@ -15,7 +15,7 @@ export function Background({ info }: BackgroundProps) {
       <div className="background-prose-container">
         {paragraphs.map((para, idx) => (
           <p
-            key={para.slice(0, 32)}
+            key={idx}
             className={idx === 0 ? "background-lead-prose" : "background-body-prose"}
           >
             {para}

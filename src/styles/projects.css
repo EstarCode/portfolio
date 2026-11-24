@@ -93,6 +93,19 @@
   letter-spacing: 0.02em;
 }
 
+.chrome-status-dl {
+  color: var(--muted);
+  background: var(--bg-subtle);
+  border-color: var(--line);
+}
+
+.status-dl-dot {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: var(--muted-light);
+}
+
 .status-live-dot {
   width: 0.35rem;
   height: 0.35rem;

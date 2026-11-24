@@ -72,7 +72,12 @@ export default function App() {
         };
         if (targets[k]) {
           e.preventDefault();
-          const targetEl = document.getElementById(targets[k]); if (targetEl) { targetEl.scrollIntoView({ behavior: 'smooth' }); } else { window.location.hash = targets[k]; }
+          const targetEl = document.getElementById(targets[k]);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: "smooth" });
+          } else {
+            window.location.hash = targets[k];
+          }
         }
         pendingG = false;
         if (gTimeout) clearTimeout(gTimeout);
@@ -128,7 +133,7 @@ export default function App() {
       </main>
 
       <footer className="site-footer">
-        <span>© {CURRENT_YEAR} {profile.name} · Full-Stack Developer</span>
+        <span>© {CURRENT_YEAR} {profile.name} · {profile.title || "Full-Stack Developer"}</span>
         <a href="#top" className="footer-top-btn" aria-label="Scroll to top">
           <span>Top</span>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">

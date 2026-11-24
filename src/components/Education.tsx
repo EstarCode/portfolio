@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { Education, Certificate } from "../types";
 import { Section } from "./Section";
 
@@ -12,8 +12,9 @@ export function EducationSection({ education, certificates }: EducationProps) {
   const safeCerts = Array.isArray(certificates) ? certificates : [];
 
   const [activeCertIdx, setActiveCertIdx] = useState(0);
-  const [certImgFailed, setCertImgFailed] = useState<Record<number, boolean>>({});
+  const [certImgFailed, setCertImgFailed] = useState<Record<string, boolean>>({});
   const [isPaused, setIsPaused] = useState(false);
+  const wasManualNav = useRef(false);
 
   const hasCerts = safeCerts.length > 0;
   const currentCert = hasCerts ? safeCerts[activeCertIdx] : null;
@@ -21,11 +22,15 @@ export function EducationSection({ education, certificates }: EducationProps) {
   useEffect(() => {
     if (safeCerts.length <= 1 || isPaused) return;
 
-    // Respect user's motion preferences
     const prefersReducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
+
+    // If manual navigation occurred, restart timer once; then clear the flag
+    if (wasManualNav.current) {
+      wasManualNav.current = false;
+    }
 
     const interval = setInterval(() => {
       setActiveCertIdx((prev) => (prev + 1) % safeCerts.length);
@@ -35,10 +40,12 @@ export function EducationSection({ education, certificates }: EducationProps) {
   }, [safeCerts.length, isPaused, activeCertIdx]);
 
   const handlePrev = () => {
+    wasManualNav.current = true;
     setActiveCertIdx((prev) => (prev === 0 ? safeCerts.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
+    wasManualNav.current = true;
     setActiveCertIdx((prev) => (prev + 1) % safeCerts.length);
   };
 
@@ -102,7 +109,7 @@ export function EducationSection({ education, certificates }: EducationProps) {
           </div>
 
           <div className="cert-frame">
-            {!certImgFailed[activeCertIdx] && currentCert.image ? (
+            {!certImgFailed[currentCert.image] && currentCert.image ? (
               <a
                 href={currentCert.verifyUrl || currentCert.image}
                 target="_blank"
@@ -118,7 +125,7 @@ export function EducationSection({ education, certificates }: EducationProps) {
                   loading="lazy"
                   className="cert-img"
                   onError={() =>
-                    setCertImgFailed((prev) => ({ ...prev, [activeCertIdx]: true }))
+                    setCertImgFailed((prev) => ({ ...prev, [currentCert.image]: true }))
                   }
                 />
               </a>
@@ -176,7 +183,11 @@ export function EducationSection({ education, certificates }: EducationProps) {
                 title={currentCert.verifyUrl ? "Verify official credential" : "View credential image"}
                 aria-label={`Verify credential for ${currentCert.title} (opens in new tab)`}
               >
-                {currentCert.verifyUrl ? "Verify ↗" : "View Credential ↗"}
+                {currentCert.verifyUrl ? "Verify" : "View Credential"}
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
               </a>
             </div>
           </div>

@@ -85,18 +85,24 @@ export function Projects({ projects }: { projects?: Project[] }) {
 
           let displayUrl = "";
           const firstLink = links[0];
+
+          // Detect direct downloads by label keywords or known file extensions
+          const DOWNLOAD_LABEL_KEYWORDS = ["download", "apk", "install", "get app"];
+          const DOWNLOAD_EXTENSIONS = /\.(apk|exe|dmg|zip|rar|msi|pkg|deb|rpm|pdf)$/i;
+          const DOWNLOAD_HOSTS = ["drive.google.com", "mega.nz", "dropbox.com", "github.com/releases"];
           const isDirectDownload = Boolean(
-            firstLink?.label.toLowerCase().includes("download") ||
-            (firstLink?.href && firstLink.href.includes("drive.google.com"))
+            firstLink &&
+            (
+              DOWNLOAD_LABEL_KEYWORDS.some((kw) => firstLink.label.toLowerCase().includes(kw)) ||
+              DOWNLOAD_EXTENSIONS.test(firstLink.href || "") ||
+              DOWNLOAD_HOSTS.some((h) => firstLink.href?.includes(h))
+            )
           );
 
           if (firstLink?.href) {
             try {
-              if (isDirectDownload) {
-                displayUrl = "ethiofarm.app";
-              } else {
-                displayUrl = new URL(firstLink.href).hostname;
-              }
+              const parsed = new URL(firstLink.href);
+              displayUrl = parsed.hostname.replace(/^www\./, "");
             } catch {
               displayUrl = firstLink.label;
             }
@@ -121,10 +127,16 @@ export function Projects({ projects }: { projects?: Project[] }) {
                       <span className="chrome-url">{displayUrl}</span>
                     </div>
                   )}
-                  {links.length > 0 && (
+                  {links.length > 0 && !isDirectDownload && (
                     <span className="chrome-status-pill">
                       <span className="status-live-dot" aria-hidden="true" />
-                      Active
+                      Live
+                    </span>
+                  )}
+                  {isDirectDownload && (
+                    <span className="chrome-status-pill chrome-status-dl">
+                      <span className="status-dl-dot" aria-hidden="true" />
+                      Download
                     </span>
                   )}
                 </div>
@@ -166,7 +178,7 @@ export function Projects({ projects }: { projects?: Project[] }) {
                 {highlights.length > 0 && (
                   <ul className="project-highlights">
                     {highlights.map((h, i) => (
-                      <li key={i}>
+                      <li key={h.slice(0, 40) + i}>
                         <span className="highlight-bullet" aria-hidden="true">›</span>
                         <span>{h}</span>
                       </li>
