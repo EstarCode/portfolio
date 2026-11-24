@@ -17,6 +17,7 @@ import "./styles/header.css";
 import "./styles/hero.css";
 import "./styles/background.css";
 import "./styles/projects.css";
+import "./styles/experience.css";
 import "./styles/education.css";
 import "./styles/stack.css";
 import "./styles/contact.css";
@@ -128,7 +129,13 @@ export default function App() {
 
       <footer className="site-footer">
         <span>© {CURRENT_YEAR} {profile.name} · Full-Stack Developer</span>
-        <a href="#top">↑ Top</a>
+        <a href="#top" className="footer-top-btn" aria-label="Scroll to top">
+          <span>Top</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+            <line x1="12" y1="19" x2="12" y2="5" />
+            <polyline points="5 12 12 5 19 12" />
+          </svg>
+        </a>
       </footer>
     </ErrorBoundary>
   );

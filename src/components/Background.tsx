@@ -11,7 +11,7 @@ export function Background({ info }: BackgroundProps) {
   if (paragraphs.length === 0) return null;
 
   return (
-    <Section id="about" title="About">
+    <Section id="about" title={info.headline || "About"}>
       <div className="background-prose-container">
         {paragraphs.map((para, idx) => (
           <p

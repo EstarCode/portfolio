@@ -107,7 +107,7 @@ export function EducationSection({ education, certificates }: EducationProps) {
                 href={currentCert.verifyUrl || currentCert.image}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="cert-img-link"
+                className={`cert-img-link ${currentCert.verifyUrl ? "is-verify" : "is-preview"}`}
                 title={currentCert.verifyUrl ? "Verify official credential (opens in new tab)" : "View full certificate (opens in new tab)"}
                 aria-label={`View full certificate for ${currentCert.title} (opens in new tab)`}
               >
@@ -156,13 +156,12 @@ export function EducationSection({ education, certificates }: EducationProps) {
               </p>
             </div>
             <div className="cert-actions">
-              <div className="cert-dots" role="tablist" aria-label="Certificate selectors">
+              <div className="cert-dots" role="group" aria-label="Certificate selectors">
                 {safeCerts.map((cert, idx) => (
                   <button
                     key={idx}
                     type="button"
-                    role="tab"
-                    aria-selected={idx === activeCertIdx}
+                    aria-current={idx === activeCertIdx ? "true" : undefined}
                     aria-label={`View certificate ${idx + 1}: ${cert.title}`}
                     className={`cert-dot ${idx === activeCertIdx ? "active" : ""}`}
                     onClick={() => setActiveCertIdx(idx)}

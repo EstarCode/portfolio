@@ -126,7 +126,13 @@ export function Hero({ p }: { p: Profile }) {
                   ? { target: "_blank", rel: "noopener noreferrer", "aria-label": "Open resume in new tab" }
                   : { download: "resume.pdf", "aria-label": "Download resume (PDF)" })}
               >
-                Resume{/^https?:\/\//i.test(p.resumeUrl!) ? " ↗" : ""}
+                <span>Resume</span>
+                {/^https?:\/\//i.test(p.resumeUrl!) && (
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                )}
               </a>
             )}
             {p.socials?.github && (
@@ -137,7 +143,11 @@ export function Hero({ p }: { p: Profile }) {
                 rel="noopener noreferrer"
                 aria-label={`${p.name ?? "Abraham"}'s GitHub profile (opens in new tab)`}
               >
-                GitHub ↗
+                <span>GitHub</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
               </a>
             )}
           </div>

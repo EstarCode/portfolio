@@ -10,7 +10,7 @@
   flex-direction: column;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   transition:
     border-color var(--duration-fast) ease,
@@ -235,9 +235,25 @@
   transition: opacity var(--duration-fast) ease;
 }
 
+.project-name-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.project-title-arrow {
+  opacity: 0.5;
+  transition: transform 160ms var(--ease-spring), opacity var(--duration-fast) ease;
+}
+
 .project-name-link:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.project-name-link:hover .project-title-arrow {
+  opacity: 1;
+  transform: translate(1px, -1px);
 }
 
 .project-category {
@@ -298,7 +314,7 @@
 
 .project-tag {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 500;
   padding: 0.15rem 0.5rem;
   border-radius: 4px;

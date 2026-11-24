@@ -370,7 +370,12 @@ export function Contact({ p }: { p: Profile }) {
                 <span className="channel-name">Email</span>
                 <span className="channel-handle">{socials.email || p.email}</span>
               </div>
-              <span className="channel-arrow" aria-hidden="true">↗</span>
+              <span className="channel-arrow" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </span>
             </a>
 
             {socials.github && (
@@ -390,7 +395,12 @@ export function Contact({ p }: { p: Profile }) {
                   <span className="channel-name">GitHub</span>
                   <span className="channel-handle">EstarCode</span>
                 </div>
-                <span className="channel-arrow" aria-hidden="true">↗</span>
+                <span className="channel-arrow" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </span>
               </a>
             )}
 
@@ -413,7 +423,12 @@ export function Contact({ p }: { p: Profile }) {
                   <span className="channel-name">LinkedIn</span>
                   <span className="channel-handle">abraham-tiruneh</span>
                 </div>
-                <span className="channel-arrow" aria-hidden="true">↗</span>
+                <span className="channel-arrow" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </span>
               </a>
             )}
 
@@ -435,7 +450,12 @@ export function Contact({ p }: { p: Profile }) {
                   <span className="channel-name">Telegram</span>
                   <span className="channel-handle">@kokpic</span>
                 </div>
-                <span className="channel-arrow" aria-hidden="true">↗</span>
+                <span className="channel-arrow" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </span>
               </a>
             )}
 
@@ -456,7 +476,12 @@ export function Contact({ p }: { p: Profile }) {
                   <span className="channel-name">WhatsApp</span>
                   <span className="channel-handle">+251 924 276 862</span>
                 </div>
-                <span className="channel-arrow" aria-hidden="true">↗</span>
+                <span className="channel-arrow" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </span>
               </a>
             )}
           </div>

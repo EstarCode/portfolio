@@ -94,11 +94,21 @@
 
 .menu-btn {
   display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
   border: 1px solid var(--line);
   background: var(--bg-subtle);
-  padding: 0.3rem 0.6rem;
   border-radius: 4px;
   cursor: pointer;
+  color: var(--muted);
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.menu-btn:hover {
+  color: var(--ink);
+  border-color: var(--line-strong);
 }
 
 .skip {
@@ -139,5 +149,16 @@
   }
   .site-header nav.is-open {
     display: flex;
+  }
+  .site-header nav.is-open .nav-link {
+    padding: 0.55rem 0.85rem;
+    border-radius: 6px;
+  }
+  .site-header nav.is-open .nav-link[aria-current="true"] {
+    background: var(--bg-subtle);
+    color: var(--ink);
+  }
+  .site-header nav.is-open .nav-link[aria-current="true"]::after {
+    display: none;
   }
 }

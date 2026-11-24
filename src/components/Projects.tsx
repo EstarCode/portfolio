@@ -148,7 +148,11 @@ export function Projects({ projects }: { projects?: Project[] }) {
                         className="project-name-link"
                         aria-label={`Visit ${p.name} (opens in new tab)`}
                       >
-                        {p.name}
+                        <span>{p.name}</span>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" className="project-title-arrow">
+                          <line x1="7" y1="17" x2="17" y2="7" />
+                          <polyline points="7 7 17 7 17 17" />
+                        </svg>
                       </a>
                     ) : (
                       p.name
