@@ -109,6 +109,8 @@ export function EducationSection({ education, certificates }: EducationProps) {
       {hasCerts && currentCert && (
         <div
           className="cert-showcase"
+          role="region"
+          aria-roledescription="carousel"
           aria-label="Certifications"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}

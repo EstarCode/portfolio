@@ -248,6 +248,7 @@
 }
 
 .cert-dot {
+  position: relative;
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
@@ -256,6 +257,19 @@
   background: var(--line-strong);
   cursor: pointer;
   transition: background-color var(--duration-fast) ease, transform var(--duration-fast) ease;
+}
+
+/* Accessible minimum target size of 28x28px for touch screens (WCAG 2.1 SC 2.5.8) */
+.cert-dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1.75rem;
+  height: 1.75rem;
+  min-width: 28px;
+  min-height: 28px;
 }
 
 .cert-dot:hover {

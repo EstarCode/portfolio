@@ -50,8 +50,15 @@ export default function App() {
         return;
       }
 
-      // Vim sequence: G followed by section key
-      if (e.key.toLowerCase() === "g" && !pendingG) {
+      // Vim shortcut: Shift+G jumps straight to the end/contact section
+      if (e.key === "G" && !pendingG) {
+        e.preventDefault();
+        document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+
+      // Vim sequence: lowercase g followed by target key
+      if (e.key === "g" && !pendingG) {
         pendingG = true;
         if (gTimeout) clearTimeout(gTimeout);
         gTimeout = window.setTimeout(() => {
