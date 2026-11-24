@@ -20,6 +20,11 @@ export function useActiveSection(ids: string[]) {
 
     const io = new IntersectionObserver(
       (entries) => {
+        // When scrolled to the very top (Hero region), clear active navigation state
+        if (window.scrollY < 120) {
+          setActive("");
+          return;
+        }
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
@@ -32,14 +37,23 @@ export function useActiveSection(ids: string[]) {
 
     els.forEach((e) => io.observe(e));
 
-    // Fallback: highlight last section when user reaches page bottom
+    // Throttled scroll listener: clears active section at top and catches bottom-of-page
+    let ticking = false;
     const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 60
-      ) {
-        const lastId = list[list.length - 1];
-        if (lastId) setActive(lastId);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY < 120) {
+            setActive("");
+          } else if (
+            window.innerHeight + window.scrollY >=
+            document.documentElement.scrollHeight - 60
+          ) {
+            const lastId = list[list.length - 1];
+            if (lastId) setActive(lastId);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 

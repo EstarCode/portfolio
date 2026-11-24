@@ -11,12 +11,14 @@ function isValidResumeUrl(url?: string): boolean {
 }
 
 export function Hero({ p }: { p: Profile }) {
-  const rawPhotos = Array.isArray(p.photos) && p.photos.length > 0 ? p.photos : [];
-  const photos = rawPhotos.length >= 2
-    ? rawPhotos.slice(0, 2)
-    : rawPhotos.length === 1
-    ? [rawPhotos[0], rawPhotos[0]]
-    : ["/assets/photos/photo1.jpg", "/assets/photos/photo2.jpg"];
+  const rawPhotos =
+    Array.isArray(p.photos) && p.photos.length > 0
+      ? p.photos
+      : p.avatarUrl
+      ? [p.avatarUrl]
+      : ["/assets/photos/photo1.jpg", "/assets/photos/photo2.jpg"];
+
+  const photos = rawPhotos.length >= 2 ? rawPhotos.slice(0, 2) : rawPhotos;
 
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);

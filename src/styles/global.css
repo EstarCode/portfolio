@@ -76,6 +76,10 @@ main {
   overflow-x: clip;
 }
 
+main:focus {
+  outline: none;
+}
+
 @media (max-width: 480px) {
   main {
     padding: 0 1rem 4rem;

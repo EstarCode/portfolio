@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Project } from "../types";
 import { Section } from "./Section";
 
@@ -13,11 +14,11 @@ function ProjectGraphic({
   const t = icon || `${category} ${name}`.toLowerCase();
   if (t === "space" || t.includes("space") || t.includes("observatory")) {
     return (
-      <div className="project-preview-canvas graphic-space">
+      <div className="project-preview-canvas graphic-space" aria-hidden="true">
         <div className="canvas-orbit-ring" />
         <div className="canvas-orbit-ring ring-outer" />
         <div className="canvas-icon-badge">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
             <circle cx="12" cy="12" r="9" />
             <path d="M3.6 9h16.8M3.6 15h16.8" />
             <path d="M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18" />
@@ -29,10 +30,10 @@ function ProjectGraphic({
   }
   if (t === "agriculture" || t.includes("farm") || t.includes("agri")) {
     return (
-      <div className="project-preview-canvas graphic-farm">
+      <div className="project-preview-canvas graphic-farm" aria-hidden="true">
         <div className="canvas-orbit-ring" />
         <div className="canvas-icon-badge">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
             <polyline points="9 22 9 12 15 12 15 22" />
           </svg>
@@ -43,10 +44,10 @@ function ProjectGraphic({
   }
   if (t === "document" || t.includes("pdf") || t.includes("doc")) {
     return (
-      <div className="project-preview-canvas graphic-pdf">
+      <div className="project-preview-canvas graphic-pdf" aria-hidden="true">
         <div className="canvas-orbit-ring" />
         <div className="canvas-icon-badge">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
             <polyline points="14 2 14 8 20 8" />
             <line x1="16" y1="13" x2="8" y2="13" />
@@ -58,10 +59,10 @@ function ProjectGraphic({
     );
   }
   return (
-    <div className="project-preview-canvas graphic-ai">
+    <div className="project-preview-canvas graphic-ai" aria-hidden="true">
       <div className="canvas-orbit-ring" />
       <div className="canvas-icon-badge">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
           <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
           <path d="M6 12v5c3 3 9 3 12 0v-5" />
         </svg>
@@ -72,6 +73,7 @@ function ProjectGraphic({
 }
 
 export function Projects({ projects }: { projects?: Project[] }) {
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
   const list = Array.isArray(projects) ? projects : [];
   if (list.length === 0) return null;
 
@@ -142,8 +144,16 @@ export function Projects({ projects }: { projects?: Project[] }) {
                   )}
                 </div>
 
-                {p.image ? (
-                  <img src={p.image} alt={p.name} className="project-img" loading="lazy" />
+                {p.image && !failedImages[p.image] ? (
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="project-img"
+                    loading="lazy"
+                    onError={() => {
+                      if (p.image) setFailedImages((prev) => ({ ...prev, [p.image!]: true }));
+                    }}
+                  />
                 ) : (
                   <ProjectGraphic icon={p.icon} category={p.category} name={p.name} />
                 )}

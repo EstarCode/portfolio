@@ -30,11 +30,15 @@ export function Contact({ p }: { p: Profile }) {
   };
 
   const copyTimeoutRef = useRef<number | undefined>(undefined);
+  const cooldownTimerRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     return () => {
       if (copyTimeoutRef.current) {
         clearTimeout(copyTimeoutRef.current);
+      }
+      if (cooldownTimerRef.current) {
+        clearTimeout(cooldownTimerRef.current);
       }
     };
   }, []);
@@ -91,7 +95,11 @@ export function Contact({ p }: { p: Profile }) {
       setErrorMessage(`Please wait ${secs} second${secs !== 1 ? "s" : ""} before sending another message.`);
       setStatus("error");
       // Auto-clear after cooldown expires
-      setTimeout(() => setStatus((s) => (s === "error" ? "idle" : s)), cooldownRemaining);
+      if (cooldownTimerRef.current) clearTimeout(cooldownTimerRef.current);
+      cooldownTimerRef.current = window.setTimeout(
+        () => setStatus((s) => (s === "error" ? "idle" : s)),
+        cooldownRemaining
+      );
       return;
     }
 

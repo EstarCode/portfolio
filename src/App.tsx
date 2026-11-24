@@ -63,6 +63,8 @@ export default function App() {
       if (pendingG) {
         const k = e.key.toLowerCase();
         const targets: Record<string, string> = {
+          g: "top",
+          h: "top",
           a: "about",
           p: "projects",
           e: "experience",
@@ -99,7 +101,7 @@ export default function App() {
         toggleTheme={toggle}
       />
 
-      <main id="main">
+      <main id="main" tabIndex={-1}>
         <ErrorBoundary fallbackTitle="Hero error">
           <Hero p={profile} />
         </ErrorBoundary>

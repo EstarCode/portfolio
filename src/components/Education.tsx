@@ -15,9 +15,10 @@ export function EducationSection({ education, certificates }: EducationProps) {
   const [certImgFailed, setCertImgFailed] = useState<Record<string, boolean>>({});
   const [isPaused, setIsPaused] = useState(false);
   const wasManualNav = useRef(false);
+  const touchStartX = useRef<number | null>(null);
 
   const hasCerts = safeCerts.length > 0;
-  const currentCert = hasCerts ? safeCerts[activeCertIdx] : null;
+  const currentCert = hasCerts ? safeCerts[activeCertIdx] ?? safeCerts[0] ?? null : null;
 
   useEffect(() => {
     if (activeCertIdx >= safeCerts.length && safeCerts.length > 0) {
@@ -55,6 +56,25 @@ export function EducationSection({ education, certificates }: EducationProps) {
     setActiveCertIdx((prev) => (prev + 1) % safeCerts.length);
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0]?.clientX ?? null;
+    if (touchEndX !== null) {
+      const diffX = touchStartX.current - touchEndX;
+      // Minimum swipe threshold of 45px
+      if (diffX > 45) {
+        handleNext();
+      } else if (diffX < -45) {
+        handlePrev();
+      }
+    }
+    touchStartX.current = null;
+  };
+
   if (safeEdu.length === 0 && !hasCerts) return null;
 
   return (
@@ -83,7 +103,11 @@ export function EducationSection({ education, certificates }: EducationProps) {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onFocus={() => setIsPaused(true)}
-          onBlur={() => setIsPaused(false)}
+          onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+              setIsPaused(false);
+            }
+          }}
         >
           <div className="cert-showcase-header">
             <div className="cert-header-left">
@@ -118,7 +142,11 @@ export function EducationSection({ education, certificates }: EducationProps) {
             </div>
           </div>
 
-          <div className="cert-frame">
+          <div
+            className="cert-frame"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             {!certImgFailed[currentCert.image] && currentCert.image ? (
               <a
                 href={currentCert.verifyUrl || currentCert.image}
