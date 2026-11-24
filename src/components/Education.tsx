@@ -14,7 +14,6 @@ export function EducationSection({ education, certificates }: EducationProps) {
   const [activeCertIdx, setActiveCertIdx] = useState(0);
   const [certImgFailed, setCertImgFailed] = useState<Record<string, boolean>>({});
   const [isPaused, setIsPaused] = useState(false);
-  const wasManualNav = useRef(false);
   const touchStartX = useRef<number | null>(null);
 
   const hasCerts = safeCerts.length > 0;
@@ -34,25 +33,20 @@ export function EducationSection({ education, certificates }: EducationProps) {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
-    // If manual navigation occurred, restart timer once; then clear the flag
-    if (wasManualNav.current) {
-      wasManualNav.current = false;
-    }
-
     const interval = setInterval(() => {
       setActiveCertIdx((prev) => (prev + 1) % safeCerts.length);
     }, 4500);
 
     return () => clearInterval(interval);
-  }, [safeCerts.length, isPaused, activeCertIdx]);
+    // Intentionally excludes activeCertIdx: restarting on every manual nav
+    // would fire the timer immediately after a click. isPaused already pauses it.
+  }, [safeCerts.length, isPaused]);
 
   const handlePrev = () => {
-    wasManualNav.current = true;
     setActiveCertIdx((prev) => (prev === 0 ? safeCerts.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    wasManualNav.current = true;
     setActiveCertIdx((prev) => (prev + 1) % safeCerts.length);
   };
 

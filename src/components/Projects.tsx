@@ -91,14 +91,16 @@ export function Projects({ projects }: { projects?: Project[] }) {
           // Detect direct downloads by label keywords or known file extensions
           const DOWNLOAD_LABEL_KEYWORDS = ["download", "apk", "install", "get app"];
           const DOWNLOAD_EXTENSIONS = /\.(apk|exe|dmg|zip|rar|msi|pkg|deb|rpm|pdf)$/i;
-          const DOWNLOAD_HOSTS = ["drive.google.com", "mega.nz", "dropbox.com", "github.com/releases"];
+          const DOWNLOAD_HOSTS = ["drive.google.com", "mega.nz", "dropbox.com"];
+          const DOWNLOAD_HOST_PATH = /github\.com\/[^/]+\/[^/]+\/releases/;
           const cleanHref = (firstLink?.href || "").split("?")[0] || "";
           const isDirectDownload = Boolean(
             firstLink &&
             (
               DOWNLOAD_LABEL_KEYWORDS.some((kw) => firstLink.label.toLowerCase().includes(kw)) ||
               DOWNLOAD_EXTENSIONS.test(cleanHref) ||
-              DOWNLOAD_HOSTS.some((h) => (firstLink.href || "").includes(h))
+              DOWNLOAD_HOSTS.some((h) => (firstLink.href || "").includes(h)) ||
+              DOWNLOAD_HOST_PATH.test(firstLink.href || "")
             )
           );
 
@@ -216,7 +218,8 @@ export function Projects({ projects }: { projects?: Project[] }) {
                     const isLinkDownload = Boolean(
                       DOWNLOAD_LABEL_KEYWORDS.some((kw) => link.label.toLowerCase().includes(kw)) ||
                       DOWNLOAD_EXTENSIONS.test(cleanHrefL) ||
-                      DOWNLOAD_HOSTS.some((h) => (link.href || "").includes(h))
+                      DOWNLOAD_HOSTS.some((h) => (link.href || "").includes(h)) ||
+                      DOWNLOAD_HOST_PATH.test(link.href || "")
                     );
                     return (
                       <a

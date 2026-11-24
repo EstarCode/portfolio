@@ -251,6 +251,7 @@
     width: 100%;
     max-width: 15rem;
     align-self: center;
+    margin: 0 auto;
   }
 
   /* Full-width portrait on very small phones */
