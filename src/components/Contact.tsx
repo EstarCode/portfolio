@@ -156,10 +156,12 @@ export function Contact({ p }: { p: Profile }) {
           body: JSON.stringify({
             name: trimmedName,
             email: trimmedEmail,
+            _replyto: trimmedEmail,
             _subject: trimmedSubject || `Portfolio Message from ${trimmedName}`,
             message: trimmedMsg,
             _gotcha: honeypot,
             _template: "table",
+            _captcha: "false",
           }),
         }
       );
