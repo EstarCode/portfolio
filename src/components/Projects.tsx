@@ -90,12 +90,13 @@ export function Projects({ projects }: { projects?: Project[] }) {
           const DOWNLOAD_LABEL_KEYWORDS = ["download", "apk", "install", "get app"];
           const DOWNLOAD_EXTENSIONS = /\.(apk|exe|dmg|zip|rar|msi|pkg|deb|rpm|pdf)$/i;
           const DOWNLOAD_HOSTS = ["drive.google.com", "mega.nz", "dropbox.com", "github.com/releases"];
+          const cleanHref = (firstLink?.href || "").split("?")[0] || "";
           const isDirectDownload = Boolean(
             firstLink &&
             (
               DOWNLOAD_LABEL_KEYWORDS.some((kw) => firstLink.label.toLowerCase().includes(kw)) ||
-              DOWNLOAD_EXTENSIONS.test(firstLink.href || "") ||
-              DOWNLOAD_HOSTS.some((h) => firstLink.href?.includes(h))
+              DOWNLOAD_EXTENSIONS.test(cleanHref) ||
+              DOWNLOAD_HOSTS.some((h) => (firstLink.href || "").includes(h))
             )
           );
 

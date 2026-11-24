@@ -8,20 +8,26 @@ export function Contact({ p }: { p: Profile }) {
   const socials = p.socials || { email: p.email };
   const recipientEmail = socials.email || p.email;
 
+  const ghHandle = socials.github ? socials.github.replace(/\/$/, "").split("/").pop() || "GitHub" : "GitHub";
+  const liHandle = socials.linkedin ? socials.linkedin.replace(/\/$/, "").split("/").pop() || "LinkedIn" : "LinkedIn";
+  const tgHandle = socials.telegram ? "@" + (socials.telegram.replace(/\/$/, "").split("/").pop()?.replace(/^@/, "") || "Telegram") : "Telegram";
+  const waDisplay = p.phone || socials.phone || "+251 924 276 862";
+
   const [copied, setCopied] = useState(false);
   const [senderName, setSenderName] = useState("");
   const [senderEmail, setSenderEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
-  // Clear error state whenever user starts editing any field
-  const clearErrorIfNeeded = () => {
-    if (status === "error") { setStatus("idle"); setErrorMessage(""); }
-  };
   const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [lastSubmitTime, setLastSubmitTime] = useState(0);
+
+  // Clear error state whenever user starts editing any field
+  const clearErrorIfNeeded = () => {
+    if (status === "error") { setStatus("idle"); setErrorMessage(""); }
+  };
 
   const copyTimeoutRef = useRef<number | undefined>(undefined);
 
@@ -397,7 +403,7 @@ export function Contact({ p }: { p: Profile }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="channel-card"
-                aria-label="GitHub profile: EstarCode (opens in new tab)"
+                aria-label={`GitHub profile: ${ghHandle} (opens in new tab)`}
               >
                 <div className="channel-icon-box">
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -406,7 +412,7 @@ export function Contact({ p }: { p: Profile }) {
                 </div>
                 <div className="channel-info">
                   <span className="channel-name">GitHub</span>
-                  <span className="channel-handle">EstarCode</span>
+                  <span className="channel-handle">{ghHandle}</span>
                 </div>
                 <span className="channel-arrow" aria-hidden="true">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -423,7 +429,7 @@ export function Contact({ p }: { p: Profile }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="channel-card"
-                aria-label="LinkedIn profile: abraham-tiruneh (opens in new tab)"
+                aria-label={`LinkedIn profile: ${liHandle} (opens in new tab)`}
               >
                 <div className="channel-icon-box">
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -434,7 +440,7 @@ export function Contact({ p }: { p: Profile }) {
                 </div>
                 <div className="channel-info">
                   <span className="channel-name">LinkedIn</span>
-                  <span className="channel-handle">abraham-tiruneh</span>
+                  <span className="channel-handle">{liHandle}</span>
                 </div>
                 <span className="channel-arrow" aria-hidden="true">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -451,7 +457,7 @@ export function Contact({ p }: { p: Profile }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="channel-card"
-                aria-label="Telegram: @kokpic (opens in new tab)"
+                aria-label={`Telegram: ${tgHandle} (opens in new tab)`}
               >
                 <div className="channel-icon-box">
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -461,7 +467,7 @@ export function Contact({ p }: { p: Profile }) {
                 </div>
                 <div className="channel-info">
                   <span className="channel-name">Telegram</span>
-                  <span className="channel-handle">@kokpic</span>
+                  <span className="channel-handle">{tgHandle}</span>
                 </div>
                 <span className="channel-arrow" aria-hidden="true">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -478,7 +484,7 @@ export function Contact({ p }: { p: Profile }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="channel-card"
-                aria-label="WhatsApp: +251 924 276 862 (opens in new tab)"
+                aria-label={`WhatsApp: ${waDisplay} (opens in new tab)`}
               >
                 <div className="channel-icon-box">
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -487,7 +493,7 @@ export function Contact({ p }: { p: Profile }) {
                 </div>
                 <div className="channel-info">
                   <span className="channel-name">WhatsApp</span>
-                  <span className="channel-handle">+251 924 276 862</span>
+                  <span className="channel-handle">{waDisplay}</span>
                 </div>
                 <span className="channel-arrow" aria-hidden="true">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">

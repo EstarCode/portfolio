@@ -22,13 +22,17 @@ export function Hero({ p }: { p: Profile }) {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [failedImages, setFailedImages] = useState<Record<number, boolean>>({});
 
+  const canToggle = photos.length > 1;
+
   // Displayed photo:
   // When cursor hovers over frame with mouse, show the shadow photo (index 1)
   // When not hovering, show the selected photo (index 0 / bright by default)
-  const displayedIdx = isHovered ? (activeIdx === 0 ? 1 : 0) : activeIdx;
+  const displayedIdx = isHovered && canToggle ? (activeIdx === 0 ? 1 : 0) : activeIdx;
 
   const handleToggle = () => {
-    setActiveIdx((prev) => (prev === 0 ? 1 : 0));
+    if (canToggle) {
+      setActiveIdx((prev) => (prev === 0 ? 1 : 0));
+    }
   };
 
   const initials = (p.name || "AT")
@@ -47,21 +51,29 @@ export function Hero({ p }: { p: Profile }) {
           <div
             className="hero-single-frame"
             onPointerEnter={(e) => {
-              if (e.pointerType === "mouse") setIsHovered(true);
+              if (e.pointerType === "mouse" && canToggle) setIsHovered(true);
             }}
             onPointerLeave={(e) => {
-              if (e.pointerType === "mouse") setIsHovered(false);
+              if (e.pointerType === "mouse" && canToggle) setIsHovered(false);
             }}
-            onClick={handleToggle}
-            role="button"
-            tabIndex={0}
-            aria-label={`Portrait photo ${displayedIdx + 1} of 2. Click or tap to toggle alternative portrait.`}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                handleToggle();
-              }
-            }}
+            onClick={canToggle ? handleToggle : undefined}
+            role={canToggle ? "button" : undefined}
+            tabIndex={canToggle ? 0 : undefined}
+            aria-label={
+              canToggle
+                ? `Portrait photo ${displayedIdx + 1} of ${photos.length}. Click or tap to toggle alternative portrait.`
+                : `${p.name || "Abraham Tiruneh"} portrait photo.`
+            }
+            onKeyDown={
+              canToggle
+                ? (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleToggle();
+                    }
+                  }
+                : undefined
+            }
           >
             {photos.map((src, idx) => {
               const isVisible = idx === displayedIdx;
@@ -94,7 +106,9 @@ export function Hero({ p }: { p: Profile }) {
               );
             })}
           </div>
-          <span className="hero-photo-tap-hint" aria-hidden="true">Tap to toggle</span>
+          {canToggle && (
+            <span className="hero-photo-tap-hint" aria-hidden="true">Tap to toggle</span>
+          )}
         </div>
 
         {/* Identity */}

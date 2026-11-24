@@ -48,6 +48,19 @@
   transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, color var(--duration-fast) ease;
 }
 
+.cert-nav-btn svg {
+  flex-shrink: 0;
+  transition: transform 140ms var(--ease-spring);
+}
+
+.cert-nav-btn:first-child:hover svg {
+  transform: translateX(-1px);
+}
+
+.cert-nav-btn:last-child:hover svg {
+  transform: translateX(1px);
+}
+
 .cert-nav-btn:hover {
   background: var(--bg);
   border-color: var(--line-strong);

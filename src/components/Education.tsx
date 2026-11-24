@@ -20,6 +20,12 @@ export function EducationSection({ education, certificates }: EducationProps) {
   const currentCert = hasCerts ? safeCerts[activeCertIdx] : null;
 
   useEffect(() => {
+    if (activeCertIdx >= safeCerts.length && safeCerts.length > 0) {
+      setActiveCertIdx(0);
+    }
+  }, [safeCerts.length, activeCertIdx]);
+
+  useEffect(() => {
     if (safeCerts.length <= 1 || isPaused) return;
 
     const prefersReducedMotion =
@@ -94,7 +100,9 @@ export function EducationSection({ education, certificates }: EducationProps) {
                 aria-label="Previous certificate"
                 title="Previous certificate"
               >
-                ←
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
               </button>
               <button
                 type="button"
@@ -103,7 +111,9 @@ export function EducationSection({ education, certificates }: EducationProps) {
                 aria-label="Next certificate"
                 title="Next certificate"
               >
-                →
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
               </button>
             </div>
           </div>
@@ -142,9 +152,9 @@ export function EducationSection({ education, certificates }: EducationProps) {
             {/* Progress track */}
             {safeCerts.length > 1 && (
               <div className="cert-progress-track" aria-hidden="true">
-                {safeCerts.map((_, idx) => (
+                {safeCerts.map((c, idx) => (
                   <div
-                    key={idx}
+                    key={(c.image || c.title || "") + idx}
                     className={`cert-segment ${
                       idx === activeCertIdx ? "active" : idx < activeCertIdx ? "passed" : ""
                     }`}
@@ -166,7 +176,7 @@ export function EducationSection({ education, certificates }: EducationProps) {
               <div className="cert-dots" role="group" aria-label="Certificate selectors">
                 {safeCerts.map((cert, idx) => (
                   <button
-                    key={idx}
+                    key={(cert.image || cert.title || "") + idx}
                     type="button"
                     aria-current={idx === activeCertIdx ? "true" : undefined}
                     aria-label={`View certificate ${idx + 1}: ${cert.title}`}

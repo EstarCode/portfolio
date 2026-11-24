@@ -74,8 +74,8 @@ export function Stack({ p }: { p: Profile }) {
   const categories = Object.entries(skills);
   if (categories.length === 0) return null;
 
-  const sectionTitle = typeof (p as {stackTitle?: string}).stackTitle === "string"
-    ? (p as {stackTitle?: string}).stackTitle!
+  const sectionTitle = typeof p.stackTitle === "string" && p.stackTitle
+    ? p.stackTitle
     : "Stack";
 
   return (

@@ -63,6 +63,7 @@ export interface Profile {
   phone?: string;
   resumeUrl?: string;
   availability?: string;
+  stackTitle?: string;
   socials: SocialChannels;
   background?: BackgroundInfo;
   projects: Project[];

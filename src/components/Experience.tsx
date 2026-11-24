@@ -23,7 +23,7 @@ export function Experience({ jobs }: { jobs?: Job[] }) {
               {points.length > 0 && (
                 <ul className="timeline-points">
                   {points.map((point, pIdx) => (
-                    <li key={pIdx}>{point}</li>
+                    <li key={point.slice(0, 32) + pIdx}>{point}</li>
                   ))}
                 </ul>
               )}

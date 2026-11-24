@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /** Returns the id of the section currently crossing the upper part of the viewport. */
 export function useActiveSection(ids: string[]) {
   const [active, setActive] = useState<string>("");
+  // Stabilise the ids reference — only reconnect observer when the list actually changes
+  const idsRef = useRef(ids);
   const idKey = ids.join(",");
+  if (idsRef.current.join(",") !== idKey) {
+    idsRef.current = ids;
+  }
 
   useEffect(() => {
     const list = idKey.split(",").filter(Boolean);
