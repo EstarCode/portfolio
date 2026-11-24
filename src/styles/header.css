@@ -104,6 +104,12 @@
   border-color: var(--line-strong);
 }
 
+.theme-btn:active {
+  color: var(--ink);
+  border-color: var(--line-strong);
+  background: var(--bg);
+}
+
 .menu-btn {
   display: none;
   align-items: center;
@@ -121,6 +127,12 @@
 .menu-btn:hover {
   color: var(--ink);
   border-color: var(--line-strong);
+}
+
+.menu-btn:active {
+  color: var(--ink);
+  border-color: var(--line-strong);
+  background: var(--bg);
 }
 
 /* Modern accessible skip link — clip-path instead of left:-9999px */

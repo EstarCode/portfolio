@@ -12,6 +12,13 @@ export function Contact({ p }: { p: Profile }) {
   const liHandle = socials.linkedin ? socials.linkedin.replace(/\/$/, "").split("/").pop() || "LinkedIn" : "LinkedIn";
   const tgHandle = socials.telegram ? "@" + (socials.telegram.replace(/\/$/, "").split("/").pop()?.replace(/^@/, "") || "Telegram") : "Telegram";
   const waDisplay = p.phone || socials.phone || "+251 924 276 862";
+  const waUrl = socials.whatsapp
+    ? socials.whatsapp.startsWith("http")
+      ? socials.whatsapp
+      : `https://wa.me/${socials.whatsapp.replace(/\D/g, "")}`
+    : p.phone
+    ? `https://wa.me/${p.phone.replace(/\D/g, "")}`
+    : "";
 
   const [copied, setCopied] = useState(false);
   const [senderName, setSenderName] = useState("");
@@ -45,25 +52,34 @@ export function Contact({ p }: { p: Profile }) {
 
   const handleCopyEmail = async () => {
     if (!recipientEmail) return;
+    let success = false;
     try {
       if (navigator?.clipboard?.writeText) {
         await navigator.clipboard.writeText(recipientEmail);
-      } else {
-        // Fallback for HTTP contexts without Clipboard API
+        success = true;
+      }
+    } catch {
+      // Fallback for permissions denial or unsupported clipboard API
+    }
+    if (!success) {
+      try {
         const textarea = document.createElement("textarea");
         textarea.value = recipientEmail;
         textarea.style.position = "fixed";
         textarea.style.opacity = "0";
+        textarea.setAttribute("readonly", "");
         document.body.appendChild(textarea);
         textarea.select();
-        document.execCommand("copy");
+        success = document.execCommand("copy");
         document.body.removeChild(textarea);
+      } catch {
+        success = false;
       }
+    }
+    if (success) {
       setCopied(true);
       if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
       copyTimeoutRef.current = window.setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // Clipboard permission denied — silent fail
     }
   };
 
@@ -486,9 +502,9 @@ export function Contact({ p }: { p: Profile }) {
               </a>
             )}
 
-            {socials.whatsapp && (
+            {waUrl && (
               <a
-                href={socials.whatsapp}
+                href={waUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="channel-card"

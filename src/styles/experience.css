@@ -54,6 +54,7 @@
   font-size: 1rem;
   font-weight: 700;
   color: var(--ink);
+  overflow-wrap: break-word;
 }
 
 .timeline-period {
@@ -74,6 +75,7 @@
   font-weight: 600;
   color: var(--ink-secondary);
   margin-bottom: 0.6rem;
+  overflow-wrap: break-word;
 }
 
 .timeline-location {

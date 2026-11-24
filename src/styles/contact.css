@@ -201,6 +201,10 @@
     background: var(--bg);
     transform: translateX(2px);
   }
+  .channel-card:active .channel-arrow {
+    color: var(--ink);
+    transform: translate(2px, -2px);
+  }
 }
 
 .channel-icon-box {

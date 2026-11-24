@@ -67,6 +67,14 @@
   color: var(--ink);
 }
 
+@media (hover: none) {
+  .cert-nav-btn:active {
+    background: var(--bg);
+    border-color: var(--line-strong);
+    color: var(--ink);
+  }
+}
+
 .cert-counter {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;

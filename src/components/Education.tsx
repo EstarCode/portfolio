@@ -56,6 +56,16 @@ export function EducationSection({ education, certificates }: EducationProps) {
     setActiveCertIdx((prev) => (prev + 1) % safeCerts.length);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      handlePrev();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      handleNext();
+    }
+  };
+
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0]?.clientX ?? null;
   };
@@ -108,6 +118,7 @@ export function EducationSection({ education, certificates }: EducationProps) {
               setIsPaused(false);
             }
           }}
+          onKeyDown={handleKeyDown}
         >
           <div className="cert-showcase-header">
             <div className="cert-header-left">

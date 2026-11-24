@@ -352,6 +352,14 @@
   border-color: var(--line-strong);
 }
 
+@media (hover: none) {
+  .project-tag:active {
+    color: var(--ink);
+    border-color: var(--line-strong);
+    background: var(--bg);
+  }
+}
+
 /* Project Links Footer */
 .project-links {
   display: flex;
