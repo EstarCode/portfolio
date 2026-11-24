@@ -30,8 +30,9 @@ export function EducationSection({ education, certificates }: EducationProps) {
     const interval = setInterval(() => {
       setActiveCertIdx((prev) => (prev + 1) % safeCerts.length);
     }, 4500);
+
     return () => clearInterval(interval);
-  }, [safeCerts.length, isPaused]);
+  }, [safeCerts.length, isPaused, activeCertIdx]);
 
   const handlePrev = () => {
     setActiveCertIdx((prev) => (prev === 0 ? safeCerts.length - 1 : prev - 1));

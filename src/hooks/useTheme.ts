@@ -16,6 +16,11 @@ export function useTheme() {
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     try { localStorage.setItem("theme", theme); } catch { /* ignore */ }
+
+    // Synchronize browser mobile status bar with active theme
+    const themeColor = theme === "dark" ? "#09090b" : "#ffffff";
+    const metaTags = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
+    metaTags.forEach((meta) => meta.setAttribute("content", themeColor));
   }, [theme]);
 
   // Listen for OS color scheme changes and cross-tab storage changes

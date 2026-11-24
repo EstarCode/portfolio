@@ -28,7 +28,7 @@ export function Header({ name, theme, toggleTheme }: HeaderProps) {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
       const nav = document.getElementById("site-nav");
       const menuBtn = document.querySelector(".menu-btn");
       if (
@@ -42,9 +42,11 @@ export function Header({ name, theme, toggleTheme }: HeaderProps) {
     };
     window.addEventListener("keydown", handleKey);
     window.addEventListener("click", handleClickOutside);
+    window.addEventListener("touchstart", handleClickOutside, { passive: true });
     return () => {
       window.removeEventListener("keydown", handleKey);
       window.removeEventListener("click", handleClickOutside);
+      window.removeEventListener("touchstart", handleClickOutside);
     };
   }, [open]);
 

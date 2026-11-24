@@ -38,6 +38,9 @@ export default function App() {
 
       if (isInput) return;
 
+      // Do not intercept native browser shortcuts (e.g. Ctrl+T for new tab, Ctrl+G for find next)
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+
       if (e.key.toLowerCase() === "t") {
         e.preventDefault();
         toggle();
