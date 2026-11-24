@@ -49,6 +49,16 @@
   outline: none;
   transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
   resize: vertical;
+  /* Prevent 300ms tap delay on mobile */
+  touch-action: manipulation;
+}
+
+/* iOS auto-zoom prevention: font-size < 16px triggers zoom on input focus.
+   Force at least 16px on touch-primary devices. */
+@media (hover: none) and (pointer: coarse) {
+  .form-input, .form-textarea {
+    font-size: max(1rem, 0.875rem);
+  }
 }
 
 .form-input:focus, .form-textarea:focus {
@@ -170,13 +180,27 @@
   border: 1px solid var(--line);
   border-radius: 7px;
   text-decoration: none;
-  transition: border-color var(--duration-fast) ease, transform var(--duration-fast) ease;
+  /* Explicit background so dark-mode hover has a visible lift */
+  background: var(--bg-subtle);
+  transition: border-color var(--duration-fast) ease,
+              transform var(--duration-fast) ease,
+              background-color var(--duration-fast) ease;
 }
 
 .channel-card:hover {
   border-color: var(--line-strong);
+  background: var(--bg);
   text-decoration: none;
   transform: translateX(3px);
+}
+
+/* Touch active state — hover never fires on touch devices */
+@media (hover: none) {
+  .channel-card:active {
+    border-color: var(--line-strong);
+    background: var(--bg);
+    transform: translateX(2px);
+  }
 }
 
 .channel-icon-box {

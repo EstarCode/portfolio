@@ -34,6 +34,12 @@
   letter-spacing: -0.02em;
   color: var(--ink);
   text-decoration: none;
+  /* Prevent brand text from colliding with action buttons on ultra-narrow viewports */
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 1;
 }
 
 .site-header nav {
@@ -117,10 +123,11 @@
   border-color: var(--line-strong);
 }
 
+/* Modern accessible skip link — clip-path instead of left:-9999px */
 .skip {
   position: absolute;
-  left: -9999px;
   top: 0.5rem;
+  left: 1rem;
   background: var(--ink);
   color: var(--bg);
   padding: 0.5rem 1rem;
@@ -128,10 +135,15 @@
   font-weight: 500;
   font-size: 0.85rem;
   z-index: 100;
+  /* Hidden but reachable by keyboard — clip-path is better than left:-9999px */
+  clip-path: inset(50%);
+  white-space: nowrap;
+  overflow: hidden;
+  transition: clip-path 0ms;
 }
 
 .skip:focus {
-  left: 1rem;
+  clip-path: inset(0%);
 }
 
 @keyframes drawerFadeIn {

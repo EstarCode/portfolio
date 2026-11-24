@@ -92,6 +92,12 @@
   min-height: 20rem;
 }
 
+@media (max-width: 540px) {
+  .cert-frame {
+    min-height: 14rem;
+  }
+}
+
 .cert-img-link {
   display: flex;
   align-items: center;
@@ -116,11 +122,18 @@
 
 .cert-img {
   width: 100%;
+  /* On mobile viewports, cap image so it never taller than the visible area */
   max-height: 32rem;
   object-fit: contain;
   display: block;
   border-radius: 4px;
   animation: certFade 400ms var(--ease-spring);
+}
+
+@media (max-width: 540px) {
+  .cert-img {
+    max-height: 60vw;
+  }
 }
 
 .cert-fallback {

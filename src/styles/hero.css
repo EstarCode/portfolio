@@ -48,7 +48,8 @@
   background: var(--bg-subtle);
   border: 1.5px solid var(--line);
   box-shadow: var(--shadow-sm);
-  cursor: pointer;
+  /* cursor set via modifier class — only interactive when canToggle */
+  cursor: default;
   outline: none;
   user-select: none;
   -webkit-user-select: none;
@@ -58,14 +59,33 @@
     box-shadow 350ms ease;
 }
 
-.hero-single-frame:hover {
-  transform: translateY(-2px) scale(1.01);
-  border-color: var(--ink);
-  box-shadow: var(--shadow-lg);
+/* Only show interactive cursor + hover lift when the frame is toggleable */
+.hero-single-frame[role="button"] {
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .hero-single-frame[role="button"]:hover {
+    transform: translateY(-2px) scale(1.01);
+    border-color: var(--ink);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+@media (hover: none) {
+  .hero-single-frame[role="button"]:active {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-md);
+  }
 }
 
 .hero-single-frame:focus-visible {
   outline: none;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ink);
+}
+
+/* Touch: add active feedback regardless of hover support */
+.hero-single-frame[role="button"]:focus-visible {
   box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ink);
 }
 
@@ -226,8 +246,15 @@
     gap: 2rem;
   }
 
+  /* Photo column: natural width, centered on mobile */
   .hero-photo-column {
-    width: 14rem;
+    width: 100%;
+    max-width: 15rem;
+    align-self: center;
+  }
+
+  /* Full-width portrait on very small phones */
+  .hero-single-frame {
     max-width: 100%;
   }
 }

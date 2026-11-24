@@ -99,3 +99,16 @@
 .timeline-points li {
   margin-bottom: 0.3rem;
 }
+
+/* Reduce bullet indent on very narrow phones to avoid 40px+ combined offset */
+@media (max-width: 400px) {
+  .timeline {
+    padding-left: 1rem;
+  }
+  .timeline-points {
+    padding-left: 0.85rem;
+  }
+  .timeline-item::before {
+    left: -1.37rem;
+  }
+}

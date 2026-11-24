@@ -383,8 +383,14 @@
   transition: transform 160ms var(--ease-spring);
 }
 
-.project-link:hover svg {
+/* External link: arrow goes up-right on hover */
+.project-link:not(.is-download):hover svg {
   transform: translate(2px, -2px);
+}
+
+/* Download link: arrow goes down on hover */
+.project-link.is-download:hover svg {
+  transform: translateY(2px);
 }
 
 @media (max-width: 640px) {

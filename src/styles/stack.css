@@ -48,12 +48,23 @@
   transition: color var(--duration-fast) ease,
               border-color var(--duration-fast) ease,
               transform var(--duration-fast) ease;
+  /* Prevent 300ms tap delay */
+  touch-action: manipulation;
 }
 
 .stack-pill:hover {
   color: var(--ink);
   border-color: var(--line-strong);
   transform: translateY(-1px);
+}
+
+/* Touch active feedback — hover never fires on touch devices */
+@media (hover: none) {
+  .stack-pill:active {
+    color: var(--ink);
+    border-color: var(--line-strong);
+    background: var(--bg-subtle);
+  }
 }
 
 @media (max-width: 640px) {

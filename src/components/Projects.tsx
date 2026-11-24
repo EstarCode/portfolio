@@ -201,22 +201,39 @@ export function Projects({ projects }: { projects?: Project[] }) {
               {/* Action Links */}
               {links.length > 0 && (
                 <div className="project-links">
-                  {links.map((link) => (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="project-link"
-                      aria-label={`${p.name} — ${link.label} (opens in new tab)`}
-                    >
-                      <span>{link.label}</span>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                        <line x1="7" y1="17" x2="17" y2="7" />
-                        <polyline points="7 7 17 7 17 17" />
-                      </svg>
-                    </a>
-                  ))}
+                  {links.map((link) => {
+                    const cleanHrefL = (link.href || "").split("?")[0] || "";
+                    const isLinkDownload = Boolean(
+                      DOWNLOAD_LABEL_KEYWORDS.some((kw) => link.label.toLowerCase().includes(kw)) ||
+                      DOWNLOAD_EXTENSIONS.test(cleanHrefL) ||
+                      DOWNLOAD_HOSTS.some((h) => (link.href || "").includes(h))
+                    );
+                    return (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`project-link${isLinkDownload ? " is-download" : ""}`}
+                        aria-label={`${p.name} — ${link.label} (opens in new tab)`}
+                      >
+                        <span>{link.label}</span>
+                        {isLinkDownload ? (
+                          /* Download arrow (↓) */
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <polyline points="5 12 12 19 19 12" />
+                          </svg>
+                        ) : (
+                          /* External link arrow (↗) */
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                            <line x1="7" y1="17" x2="17" y2="7" />
+                            <polyline points="7 7 17 7 17 17" />
+                          </svg>
+                        )}
+                      </a>
+                    );
+                  })}
                 </div>
               )}
             </article>

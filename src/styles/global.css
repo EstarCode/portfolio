@@ -20,7 +20,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  /* NOTE: overflow-x:hidden can break position:sticky in Safari.
+     Horizontal overflow is now contained via max-width on main/footer wrappers. */
   transition: background-color var(--duration-normal) var(--ease-in-out),
               color var(--duration-normal) var(--ease-in-out);
 }
@@ -71,6 +72,8 @@ main {
   max-width: 58rem;
   margin: 0 auto;
   padding: 0 1.5rem 6rem;
+  /* Contain horizontal overflow without breaking sticky in Safari */
+  overflow-x: clip;
 }
 
 @media (max-width: 480px) {
@@ -110,6 +113,7 @@ button {
   text-decoration: none;
   border: 1px solid var(--ink);
   transition: opacity var(--duration-fast) ease;
+  touch-action: manipulation;
 }
 
 .cta:hover {
@@ -131,6 +135,7 @@ button {
   border: 1px solid var(--line);
   text-decoration: none;
   transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
+  touch-action: manipulation;
 }
 
 .ghost:hover {
