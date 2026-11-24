@@ -87,6 +87,7 @@
   gap: 0.65rem;
   align-items: center;
   margin-top: 0.35rem;
+  flex-wrap: wrap;
 }
 
 .cta:disabled {

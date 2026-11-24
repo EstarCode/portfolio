@@ -21,6 +21,12 @@
   gap: 1rem;
 }
 
+@media (max-width: 480px) {
+  .site-header__in {
+    padding: 0.75rem 1rem;
+  }
+}
+
 .brand {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700;
@@ -154,6 +160,8 @@
   }
   .site-header nav.is-open {
     display: flex;
+    max-height: calc(100dvh - 100%);
+    overflow-y: auto;
     animation: drawerFadeIn 160ms var(--ease-spring) both;
   }
   .site-header nav.is-open .nav-link {

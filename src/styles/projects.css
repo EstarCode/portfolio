@@ -18,10 +18,18 @@
     transform var(--duration-normal) var(--ease-spring);
 }
 
-.project-card:hover {
-  border-color: var(--line-strong);
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-3px);
+@media (hover: hover) {
+  .project-card:hover {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+  }
+}
+
+@media (hover: none) {
+  .project-card:active {
+    border-color: var(--line-strong);
+  }
 }
 
 /* Browser Chrome */
@@ -66,6 +74,8 @@
   border: 1px solid var(--line);
   border-radius: 4px;
   max-width: 14rem;
+  min-width: 0;
+  flex-shrink: 1;
   color: var(--muted);
 }
 
@@ -381,5 +391,14 @@
   .project-grid {
     grid-template-columns: 1fr;
     gap: 1.15rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-body {
+    padding: 1rem 1rem 0.5rem;
+  }
+  .project-links {
+    padding: 0.75rem 1rem;
   }
 }
