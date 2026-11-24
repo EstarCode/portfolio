@@ -1,6 +1,15 @@
 import { useState } from "react";
 import type { Profile } from "../types";
 
+function isValidResumeUrl(url?: string): boolean {
+  if (!url || typeof url !== "string") return false;
+  const trimmed = url.trim();
+  if (!trimmed || trimmed === "#" || trimmed === "/") return false;
+  const isHttp = /^https?:\/\/[^\s$.?#].[^\s]*$/i.test(trimmed);
+  const isPath = /^\/[a-zA-Z0-9_\-./]+\.(pdf|doc|docx)$/i.test(trimmed);
+  return isHttp || isPath;
+}
+
 export function Hero({ p }: { p: Profile }) {
   const photos = [
     p.photos?.[0] || "/assets/photos/photo1.jpg",
@@ -109,14 +118,15 @@ export function Hero({ p }: { p: Profile }) {
 
           <div className="actions">
             <a className="cta" href="#contact">Get in touch</a>
-            {p.resumeUrl && (
+            {isValidResumeUrl(p.resumeUrl) && (
               <a
                 className="ghost"
                 href={p.resumeUrl}
-                download="resume.pdf"
-                aria-label="Download resume (PDF)"
+                {...(/^https?:\/\//i.test(p.resumeUrl!)
+                  ? { target: "_blank", rel: "noopener noreferrer", "aria-label": "Open resume in new tab" }
+                  : { download: "resume.pdf", "aria-label": "Download resume (PDF)" })}
               >
-                Resume
+                Resume{/^https?:\/\//i.test(p.resumeUrl!) ? " ↗" : ""}
               </a>
             )}
             {p.socials?.github && (

@@ -135,7 +135,7 @@
   color: var(--ink-secondary);
   font-size: 0.9rem;
   cursor: pointer;
-  transition: all var(--duration-fast) ease;
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, color var(--duration-fast) ease;
 }
 
 .cert-nav-btn:hover {
@@ -293,7 +293,7 @@
   padding: 0;
   background: var(--line-strong);
   cursor: pointer;
-  transition: all var(--duration-fast) ease;
+  transition: background-color var(--duration-fast) ease, transform var(--duration-fast) ease;
 }
 
 .cert-dot:hover {

@@ -21,6 +21,8 @@ import "./styles/education.css";
 import "./styles/stack.css";
 import "./styles/contact.css";
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export default function App() {
   const { theme, toggle } = useTheme();
 
@@ -69,7 +71,7 @@ export default function App() {
         };
         if (targets[k]) {
           e.preventDefault();
-          window.location.hash = targets[k];
+          const targetEl = document.getElementById(targets[k]); if (targetEl) { targetEl.scrollIntoView({ behavior: 'smooth' }); } else { window.location.hash = targets[k]; }
         }
         pendingG = false;
         if (gTimeout) clearTimeout(gTimeout);
@@ -125,7 +127,7 @@ export default function App() {
       </main>
 
       <footer className="site-footer">
-        <span>© {new Date().getFullYear()} {profile.name} · Full-Stack Developer</span>
+        <span>© {CURRENT_YEAR} {profile.name} · Full-Stack Developer</span>
         <a href="#top">↑ Top</a>
       </footer>
     </ErrorBoundary>

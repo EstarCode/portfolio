@@ -16,7 +16,6 @@ export const profile: Profile = {
   location: "Addis Ababa, Ethiopia",
   email: "abraham.tiruneh7@gmail.com",
   phone: "+251924276862",
-  resumeUrl: "/resume.pdf",
 
   socials: {
     email: "abraham.tiruneh7@gmail.com",

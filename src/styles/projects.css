@@ -305,7 +305,7 @@
   background: var(--bg-subtle);
   border: 1px solid var(--line);
   color: var(--muted);
-  transition: all var(--duration-fast) ease;
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
 }
 
 .project-tag:hover {
