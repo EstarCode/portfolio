@@ -156,7 +156,6 @@ export const profile: Profile = {
       issuer: "Space Science and Geospatial Institute (SSGI)",
       date: "August 2026",
       image: "/assets/certificates/cert_ssgi_ethiofarm.jpg",
-      verifyUrl: "https://drive.google.com/file/d/1y71KTIHfFaIaEqArmZm9yI5O4IOSx0Ys/view?usp=sharing",
     },
     {
       title: "ESSLCE — National Examination",
@@ -170,7 +169,6 @@ export const profile: Profile = {
       issuer: "Huawei ICT Academy",
       date: "April 2026",
       image: "/assets/certificates/cert_huawei_networks.jpg",
-      verifyUrl: "https://e.huawei.com/en/talent/",
     },
     {
       title: "Django Backend Track",

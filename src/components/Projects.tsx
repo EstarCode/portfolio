@@ -84,11 +84,21 @@ export function Projects({ projects }: { projects?: Project[] }) {
           const highlights = Array.isArray(p.highlights) ? p.highlights : [];
 
           let displayUrl = "";
-          if (links[0]?.href) {
+          const firstLink = links[0];
+          const isDirectDownload = Boolean(
+            firstLink?.label.toLowerCase().includes("download") ||
+            (firstLink?.href && firstLink.href.includes("drive.google.com"))
+          );
+
+          if (firstLink?.href) {
             try {
-              displayUrl = new URL(links[0].href).hostname;
+              if (isDirectDownload) {
+                displayUrl = "ethiofarm.app";
+              } else {
+                displayUrl = new URL(firstLink.href).hostname;
+              }
             } catch {
-              displayUrl = links[0].label;
+              displayUrl = firstLink.label;
             }
           }
 
@@ -130,9 +140,9 @@ export function Projects({ projects }: { projects?: Project[] }) {
               <div className="project-body">
                 <div className="project-header">
                   <h3 className="project-name">
-                    {links[0]?.href ? (
+                    {firstLink?.href && !isDirectDownload ? (
                       <a
-                        href={links[0].href}
+                        href={firstLink.href}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="project-name-link"

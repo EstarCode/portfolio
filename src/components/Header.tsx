@@ -22,21 +22,37 @@ export function Header({ name, theme, toggleTheme }: HeaderProps) {
   const active = useActiveSection(NAV_IDS);
   const [open, setOpen] = useState(false);
 
-  // International Standard: WCAG 2.1 SC 2.1.2 - Close expandable mobile menu on Escape key
+  // International Standard: WCAG 2.1 SC 2.1.2 - Close expandable mobile menu on Escape key & outside click
   useEffect(() => {
     if (!open) return;
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
+    const handleClickOutside = (e: MouseEvent) => {
+      const nav = document.getElementById("site-nav");
+      const menuBtn = document.querySelector(".menu-btn");
+      if (
+        nav &&
+        !nav.contains(e.target as Node) &&
+        menuBtn &&
+        !menuBtn.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
     window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      window.removeEventListener("click", handleClickOutside);
+    };
   }, [open]);
 
   return (
     <header className="site-header">
       <a className="skip" href="#main">Skip to content</a>
       <div className="site-header__in">
-        <a href="#top" className="brand">{name}</a>
+        <a href="#top" className="brand" onClick={() => setOpen(false)}>{name}</a>
 
         <nav id="site-nav" className={open ? "is-open" : ""} aria-label="Site navigation">
           {NAV.map((n) => (

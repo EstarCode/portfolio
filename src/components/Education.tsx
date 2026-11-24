@@ -102,16 +102,25 @@ export function EducationSection({ education, certificates }: EducationProps) {
 
           <div className="cert-frame">
             {!certImgFailed[activeCertIdx] && currentCert.image ? (
-              <img
-                key={currentCert.image + activeCertIdx}
-                src={currentCert.image}
-                alt={`${currentCert.title} — ${currentCert.issuer} certificate`}
-                loading="lazy"
-                className="cert-img"
-                onError={() =>
-                  setCertImgFailed((prev) => ({ ...prev, [activeCertIdx]: true }))
-                }
-              />
+              <a
+                href={currentCert.verifyUrl || currentCert.image}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cert-img-link"
+                title={currentCert.verifyUrl ? "Verify official credential (opens in new tab)" : "View full certificate (opens in new tab)"}
+                aria-label={`View full certificate for ${currentCert.title} (opens in new tab)`}
+              >
+                <img
+                  key={currentCert.image + activeCertIdx}
+                  src={currentCert.image}
+                  alt={`${currentCert.title} — ${currentCert.issuer} certificate`}
+                  loading="lazy"
+                  className="cert-img"
+                  onError={() =>
+                    setCertImgFailed((prev) => ({ ...prev, [activeCertIdx]: true }))
+                  }
+                />
+              </a>
             ) : (
               <div className="cert-fallback">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
